@@ -1,0 +1,182 @@
+@page "/setup-quality"
+@using FormsMigrationApp.Models
+@using FormsMigrationApp.Services
+@inherits FormsMigrationApp.Shared.BaseFormBase<QualitySetup>
+@inject OracleConnectionService Db
+
+<div class="qs-page">
+
+    <div class="qs-header">
+        <div>
+            <h3>Quality Setup</h3>
+            <p class="qs-subtitle">Weaving quality specification management</p>
+        </div>
+    </div>
+
+    <div class="qs-card qs-filter-card">
+        <div class="qs-filter-row">
+            <div class="qs-filter-field">
+                <label>Quality Code</label>
+                <input @bind="QualityCodeFilter" class="form-control" placeholder="Filter by code..." />
+            </div>
+            <div class="qs-filter-field">
+                <label>Brand Name</label>
+                <input @bind="BrandFilter" class="form-control" placeholder="Filter by brand..." />
+            </div>
+        </div>
+    </div>
+
+    <div class="qs-toolbar-wrap">
+        <FormsMigrationApp.Shared.FormToolbar OnExecuteQuery="ExecuteQuery"
+                                              OnNewRecord="NewRecord"
+                                              OnSave="Save"
+                                              OnNext="NextRecord"
+                                              OnPrevious="PreviousRecord"
+                                              IsBusy="IsBusy"
+                                              RecordPosition="@(Records.Count > 0 ? $"Record {CurrentIndex + 1} of {Records.Count}" : null)" />
+    </div>
+
+    @if (!string.IsNullOrEmpty(StatusMessage))
+    {
+        <div class="qs-status">
+            <span class="qs-status-dot"></span> @StatusMessage
+        </div>
+    }
+
+    @if (CurrentRecord != null)
+    {
+        <div class="qs-card">
+            <div class="qs-section-title">Identification</div>
+            <div class="qs-grid">
+                <div class="qs-field">
+                    <label>Quality Code</label>
+                    <input class="form-control" @bind="CurrentRecord.QualityCode" />
+                </div>
+                <div class="qs-field">
+                    <label>Brand Name</label>
+                    <input class="form-control" @bind="CurrentRecord.BrandName" />
+                </div>
+                <div class="qs-field">
+                    <label>Colour</label>
+                    <input class="form-control" @bind="CurrentRecord.Colour" />
+                </div>
+            </div>
+        </div>
+
+        <div class="qs-card">
+            <div class="qs-section-title">Weave Specification</div>
+            <div class="qs-grid">
+                <div class="qs-field">
+                    <label>Warp Count</label>
+                    <input class="form-control" @bind="CurrentRecord.WarpCount" />
+                </div>
+                <div class="qs-field">
+                    <label>Weft Count</label>
+                    <input class="form-control" @bind="CurrentRecord.WeftCount" />
+                </div>
+                <div class="qs-field">
+                    <label>Weave</label>
+                    <input class="form-control" @bind="CurrentRecord.Weave" />
+                </div>
+                <div class="qs-field">
+                    <label>Twill</label>
+                    <input class="form-control" @bind="CurrentRecord.Twill" />
+                </div>
+                <div class="qs-field">
+                    <label>Reed</label>
+                    <input class="form-control" @bind="CurrentRecord.Reed" />
+                </div>
+                <div class="qs-field qs-field-wide">
+                    <label>Construction</label>
+                    <input class="form-control" @bind="CurrentRecord.Construction" />
+                </div>
+            </div>
+        </div>
+
+        <div class="qs-card">
+            <div class="qs-section-title">Dimensions &amp; Density</div>
+            <div class="qs-grid">
+                <div class="qs-field">
+                    <label>Picks Per Inch</label>
+                    <input type="number" step="1" class="form-control" @bind="CurrentRecord.PicksPerInch" />
+                </div>
+                <div class="qs-field">
+                    <label>Ends Per Inch</label>
+                    <input type="number" step="1" class="form-control" @bind="CurrentRecord.EndsPerInch" />
+                </div>
+                <div class="qs-field">
+                    <label>Width</label>
+                    <input class="form-control" @bind="CurrentRecord.Width" />
+                </div>
+                <div class="qs-field">
+                    <label>PPI</label>
+                    <input type="number" step="0.01" class="form-control" @bind="CurrentRecord.Ppi" />
+                </div>
+            </div>
+        </div>
+
+        <div class="qs-card">
+            <div class="qs-section-title">Production Status</div>
+            <div class="qs-grid">
+                <div class="qs-field">
+                    <label>Running (Y/N)</label>
+                    <input class="form-control qs-mono" @bind="CurrentRecord.Running" maxlength="1" />
+                </div>
+                <div class="qs-field qs-field-full">
+                    <label>Remarks</label>
+                    <input class="form-control" @bind="CurrentRecord.Remarks" />
+                </div>
+            </div>
+
+            <button class="btn btn-outline-secondary qs-recalc-btn" @onclick="RecalculateContraction">
+                ↻ Recalculate Contraction
+            </button>
+        </div>
+    }
+    else if (!IsBusy)
+    {
+        <div class="qs-empty-state">
+            <div class="qs-empty-icon">🔍</div>
+            <p>No record loaded. Click <strong>"Execute Query"</strong> to search.</p>
+        </div>
+    }
+
+</div>
+
+@code {
+    private string? QualityCodeFilter;
+    private string? BrandFilter;
+
+    protected override async Task<List<QualitySetup>> LoadRecordsAsync()
+    {
+        return await Db.QueryQualitySetupsAsync(QualityCodeFilter, BrandFilter);
+    }
+
+    protected override async Task SaveRecordAsync(QualitySetup record)
+    {
+        await Db.SaveQualitySetupAsync(record);
+    }
+
+    protected override QualitySetup CreateNewRecord()
+    {
+        return new QualitySetup
+            {
+                QualityCode = "",
+                Panel = 1,
+                Insertion = 1,
+                Running = "Y",
+                Contraction = 8,
+                PlanEff = "90",
+                StdRpm = 850
+            };
+    }
+
+    private void RecalculateContraction()
+    {
+        if (CurrentRecord != null)
+        {
+            CurrentRecord.Contraction = 8;
+            StatusMessage = "Contraction recalculated.";
+        }
+    }
+}

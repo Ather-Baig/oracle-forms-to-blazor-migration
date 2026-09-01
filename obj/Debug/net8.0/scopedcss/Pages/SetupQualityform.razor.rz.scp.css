@@ -1,0 +1,151 @@
+.qs-page[b-lbxppyb0ol] {
+    max-width: 1100px;
+    padding-bottom: 2rem;
+}
+
+.qs-header h3[b-lbxppyb0ol] {
+    margin-bottom: 0.2rem;
+    font-weight: 700;
+    color: #1a2456;
+}
+
+.qs-subtitle[b-lbxppyb0ol] {
+    color: #6b7280;
+    margin-bottom: 1.25rem;
+    font-size: 0.95rem;
+}
+
+.qs-card[b-lbxppyb0ol] {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.25rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.qs-filter-card[b-lbxppyb0ol] {
+    background: #f8f9ff;
+    border-color: #dde1f7;
+}
+
+.qs-filter-row[b-lbxppyb0ol] {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.qs-filter-field[b-lbxppyb0ol] {
+    display: flex;
+    flex-direction: column;
+    min-width: 220px;
+}
+
+    .qs-filter-field label[b-lbxppyb0ol] {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #4b5563;
+        margin-bottom: 0.25rem;
+    }
+
+.qs-toolbar-wrap[b-lbxppyb0ol] {
+    margin-bottom: 1rem;
+}
+
+.qs-status[b-lbxppyb0ol] {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #eef4ff;
+    color: #1a2456;
+    border-radius: 8px;
+    padding: 0.6rem 1rem;
+    margin-bottom: 1.25rem;
+    font-size: 0.9rem;
+}
+
+.qs-status-dot[b-lbxppyb0ol] {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #2563eb;
+    flex-shrink: 0;
+}
+
+.qs-section-title[b-lbxppyb0ol] {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #1a2456;
+    border-left: 3px solid #1a2456;
+    padding-left: 0.6rem;
+    margin-bottom: 1rem;
+}
+
+.qs-grid[b-lbxppyb0ol] {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem 1.25rem;
+}
+
+.qs-field[b-lbxppyb0ol] {
+    display: flex;
+    flex-direction: column;
+}
+
+.qs-field-wide[b-lbxppyb0ol] {
+    grid-column: span 2;
+}
+
+.qs-field-full[b-lbxppyb0ol] {
+    grid-column: 1 / -1;
+}
+
+.qs-field label[b-lbxppyb0ol] {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #4b5563;
+    margin-bottom: 0.3rem;
+}
+
+.qs-field input.form-control[b-lbxppyb0ol] {
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+}
+
+    .qs-field input.form-control:focus[b-lbxppyb0ol] {
+        border-color: #1a2456;
+        box-shadow: 0 0 0 2px rgba(26,36,86,0.12);
+    }
+
+.qs-mono[b-lbxppyb0ol] {
+    font-family: "Courier New", monospace;
+    text-align: center;
+    max-width: 80px;
+}
+
+.qs-recalc-btn[b-lbxppyb0ol] {
+    margin-top: 1rem;
+}
+
+.qs-empty-state[b-lbxppyb0ol] {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #6b7280;
+}
+
+.qs-empty-icon[b-lbxppyb0ol] {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .qs-grid[b-lbxppyb0ol] {
+        grid-template-columns: 1fr;
+    }
+
+    .qs-field-wide[b-lbxppyb0ol], .qs-field-full[b-lbxppyb0ol] {
+        grid-column: 1;
+    }
+}
